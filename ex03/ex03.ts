@@ -54,6 +54,18 @@ function simularParcelamento(preco: number, entrada?: number): string {
 
 // ---------- Página ----------
 
+/**
+ * Ao sair do campo, mostra o valor com duas casas decimais (25 vira 25.00).
+ * O navegador exibe o separador do idioma dele: em pt-BR aparece 25,00.
+ * Campo vazio fica como está (no ex. 04, vazio significa "use o padrão").
+ */
+function formatarCampo(campo: HTMLInputElement): void {
+  if (campo.value.trim() === '' || Number.isNaN(campo.valueAsNumber)) {
+    return;
+  }
+  campo.value = campo.valueAsNumber.toFixed(2);
+}
+
 function simular(): void {
   const preco: number = campoPreco.valueAsNumber;
   corpoTabela.innerHTML = ''; // limpa a simulação anterior
@@ -98,6 +110,11 @@ function simular(): void {
   saida.className = 'sucesso';
   saida.textContent = `Valor financiado: R$ ${financiado.toFixed(2)}`;
   corpoTabela.innerHTML = linhas;
+}
+
+// Formata os campos de dinheiro quando o usuário sai deles
+for (const campo of [campoPreco, campoEntrada]) {
+  campo.addEventListener('change', (): void => formatarCampo(campo));
 }
 
 botao.addEventListener('click', simular);

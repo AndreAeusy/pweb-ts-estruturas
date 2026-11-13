@@ -50,6 +50,17 @@ function exibirValor(rotulo, valor, formatar) {
     return `${rotulo}: ${formatar(valor)}`;
 }
 // ---------- Página ----------
+/**
+ * Ao sair do campo, mostra o valor com duas casas decimais (25 vira 25.00).
+ * O navegador exibe o separador do idioma dele: em pt-BR aparece 25,00.
+ * Campo vazio fica como está (no ex. 04, vazio significa "use o padrão").
+ */
+function formatarCampo(campo) {
+    if (campo.value.trim() === '' || Number.isNaN(campo.valueAsNumber)) {
+        return;
+    }
+    campo.value = campo.valueAsNumber.toFixed(2);
+}
 function calcular() {
     const meta = campoMeta.valueAsNumber;
     const deposito = campoDeposito.valueAsNumber;
@@ -78,6 +89,10 @@ function calcular() {
             exibirValor('Saldo final', saldo, formatarReal) + '\n' +
             exibirValor('Total depositado', depositado, formatarReal) + '\n' +
             exibirValor('Rendimento', saldo - depositado, formatarReal);
+}
+// Formata os campos numéricos quando o usuário sai deles
+for (const campo of [campoMeta, campoDeposito, campoTaxa]) {
+    campo.addEventListener('change', () => formatarCampo(campo));
 }
 botao.addEventListener('click', calcular);
 export {};
