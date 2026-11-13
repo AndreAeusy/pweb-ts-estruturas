@@ -1,6 +1,6 @@
 # Atividade: Estruturas em TypeScript
 
-Aluno(a): André vinícius de souza Completo
+Aluno(a): André Vinícius de Souza Completo
 Disciplina: Programação Web
 
 ## Exercícios
